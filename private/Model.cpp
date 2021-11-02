@@ -6,20 +6,20 @@
 #include "vector"
 #include "../public/mvc_menu.h"
 
-Question& Model::question() {
+MVCMenu::Question& MVCMenu::Model::question() {
     return *_question;
 }
 
-std::vector<std::shared_ptr<Answer>>& Model::answers() {
+std::vector<std::shared_ptr<MVCMenu::Answer>>& MVCMenu::Model::answers() {
     return *_answers;
 }
 
-Model* Model::previousModel() {
+MVCMenu::Model* MVCMenu::Model::previousModel() {
     return _previousModel;
 }
 
-std::string& Question::text() { return _text; }
+std::string& MVCMenu::Question::text() { return _text; }
 
-std::string& Answer::text() { return _text; }
+std::string& MVCMenu::Answer::text() { return _text; }
 
-Model* Answer::nextModel() { return _nextModel; };
+MVCMenu::Model* MVCMenu::Answer::nextModel() { return _nextModel; };

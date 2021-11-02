@@ -4,7 +4,7 @@
 
 #include "../public/mvc_menu.h"
 
-Controller::Controller(Model &model, View &view, bool deleteMembers) {
+MVCMenu::Controller::Controller(Model &model, View &view, bool deleteMembers) {
     std::vector<Model*> firstModel(1, &model);
     this->models = firstModel;
     this->currentModel = &model;
@@ -12,7 +12,7 @@ Controller::Controller(Model &model, View &view, bool deleteMembers) {
     this->deleteMembers = deleteMembers;
 }
 
-Controller::~Controller() {
+MVCMenu::Controller::~Controller() {
     if (!deleteMembers) { return; }
     for (auto& model : models) {
         delete model;
@@ -20,7 +20,7 @@ Controller::~Controller() {
     delete view;
 }
 
-void Controller::displayView() {
+void MVCMenu::Controller::displayView() {
     bool modelInModels;
     while (currentModel != nullptr) {
         currentModel = view->presentModel(*currentModel);

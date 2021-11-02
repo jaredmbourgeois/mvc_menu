@@ -46,42 +46,12 @@ set_target_properties(${PROJECT_NAME}
         LINKER_LANGUAGE CXX
         C_VISIBILITY_PRESET default
         CXX_VISIBILITY_PRESET default
-#        DEBUG_POSTFIX "_debug"
 )
 
 include(GNUInstallDirs)
-#include_directories(${CMAKE_SOURCE_DIR}/public)
-#include_directories(${CMAKE_SOURCE_DIR}/private)
-
-#add_library(${PROJECT_NAME} STATIC public/mvc_menu.h)
-
-#target_link_libraries(${PROJECT_NAME} ${CMAKE_SOURCE_DIR}/public)
-#configure_file(${PROJECT_NAME}.pc.in ${PROJECT_NAME}.pc @ONLY)
-
-#target_include_directories(${PROJECT_NAME} PUBLIC
-#        "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>"
-#        "$<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>"
-#)
-
-#target_include_directories(${PROJECT_NAME} PUBLIC ${CMAKE_SOURCE_DIR}/public)
-#target_include_directories(${PROJECT_NAME} PRIVATE ${CMAKE_SOURCE_DIR}/private)
 
 install(TARGETS ${PROJECT_NAME}
         LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
         PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/${PROJECT_NAME}
         INCLUDES DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}
 )
-
-#set_target_properties(MVCMenu PROPERTIES
-#        INTERFACE_INCLUDE_DIRECTORIES ${_IMPORT_PREFIX}/public
-#)
-
-#install(EXPORT ${PROJECT_NAME}Targets
-#        FILE ${PROJECT_NAME}Targets.cmake
-#        NAMESPACE ${namespace}::MVCMenu
-#        DESTINATION cmake
-#)
-
-#install(FILES ${CMAKE_BINARY_DIR}/mvc_menu.pc
-#        DESTINATION ${CMAKE_INSTALL_DATAROOTDIR}/pkgconfig
-#)

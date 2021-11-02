@@ -14,11 +14,11 @@ std::string& line(std::string& string) {
     return string.append(newLine);
 }
 
-std::string textForAnswerNumber(Answer& answer, int number) {
+std::string textForAnswerNumber(MVCMenu::Answer& answer, int number) {
     return std::to_string(number).append(".\t").append(answer.text());
 }
 
-std::string textForModel(Model& model) {
+std::string textForModel(MVCMenu::Model& model) {
     auto answers = model.answers();
     int answersSize = static_cast<int>(answers.size());
     int numberOfLines = answersSize + 1;
@@ -50,7 +50,7 @@ int indexForInput(std::string& input, std::string& modelText, int answersSize) {
         selectedAnswerIndex = selectedAnswerNumber - 1;
 
         if (selectedAnswerIndex < 0 || selectedAnswerIndex >= answersSize) {
-            std::cout << ErrorUtility::messageForType(ErrorType::answerInvalid) << std::endl;
+            std::cout << MVCMenu::ErrorUtility::messageForType(MVCMenu::ErrorType::answerInvalid) << std::endl;
             std::cout << modelText << std::endl;
             std::cin >> input;
             std::cout << std::endl;
@@ -59,12 +59,12 @@ int indexForInput(std::string& input, std::string& modelText, int answersSize) {
     return selectedAnswerIndex;
 }
 
-Model* handleSelectedAnswer(const std::shared_ptr<Answer>& answer) {
+MVCMenu::Model* handleSelectedAnswer(const std::shared_ptr<MVCMenu::Answer>& answer) {
     answer->action();
     return answer->nextModel();
 }
 
-Model* TextView::presentModel(Model &model) {
+MVCMenu::Model* MVCMenu::TextView::presentModel(Model &model) {
     std::string modelText = textForModel(model);
     std::cout << modelText << std::endl;
 

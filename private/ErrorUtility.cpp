@@ -4,9 +4,9 @@
 
 #include "../public/ErrorUtility.h"
 
-std::string ErrorUtility::messageForType(ErrorType type) {
+std::string MVCMenu::ErrorUtility::messageForType(ErrorType type) {
     switch (type) {
-        case ErrorType::answerInvalid:
+        case MVCMenu::ErrorType::answerInvalid:
             return "Error: please enter a valid answer";
     }
 }

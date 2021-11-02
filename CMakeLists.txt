@@ -55,3 +55,15 @@ install(TARGETS ${PROJECT_NAME}
         PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/${PROJECT_NAME}
         INCLUDES DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}
 )
+
+#add_custom_command(TARGET ${PROJECT_NAME}
+#    POST_BUILD
+#        COMMAND /bin/sh /Users/jared/Projects/mvc_menu/UpdateDistribution.sh
+#)
+
+add_custom_command(
+        TARGET ${PROJECT_NAME}
+        COMMAND ${CMAKE_COMMAND} -E make_directory ${CMAKE_SOURCE_DIR}/distribution
+        COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_SOURCE_DIR}/public/*.h ${CMAKE_SOURCE_DIR}/distribution/
+        COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_SOURCE_DIR}/build/*.dylib ${CMAKE_SOURCE_DIR}/distribution/
+)

@@ -36,7 +36,7 @@ if(DEFINED CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT)
 endif()
 
 set(PUBLIC_HEADERS
-        public/mvc_menu.h
+        public/MVCMenu.h
         public/ErrorUtility.h
 )
 

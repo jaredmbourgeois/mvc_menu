@@ -5,7 +5,7 @@
 #include <iostream>
 #include "string"
 #include "vector"
-#include "../public/mvc_menu.h"
+#include "../public/MVCMenu.h"
 #include "../public/ErrorUtility.h"
 
 static std::string newLine = "\n";

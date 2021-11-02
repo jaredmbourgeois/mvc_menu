@@ -4,7 +4,7 @@
 
 #include <memory>
 #include "vector"
-#include "../public/mvc_menu.h"
+#include "../public/MVCMenu.h"
 
 MVCMenu::Question& MVCMenu::Model::question() {
     return *_question;

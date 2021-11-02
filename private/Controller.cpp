@@ -2,7 +2,7 @@
 // Created by Jared Bourgeois on 10/20/21.
 //
 
-#include "../public/mvc_menu.h"
+#include "../public/MVCMenu.h"
 
 MVCMenu::Controller::Controller(Model &model, View &view, bool deleteMembers) {
     std::vector<Model*> firstModel(1, &model);

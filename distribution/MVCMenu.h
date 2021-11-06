@@ -40,7 +40,7 @@ namespace MVCMenu {
     class View {
     public:
         virtual ~View() = default;
-        virtual Model* presentModel(Model& model) = 0;
+        virtual Model* presentModel(Model& model, std::string& inputError) = 0;
     };
 
     enum ViewPresentationType {
@@ -50,7 +50,7 @@ namespace MVCMenu {
     class TextView: public View {
     public:
         TextView() = default;
-        Model* presentModel(Model& model) override;
+        Model* presentModel(Model& model, std::string& inputError) override;
     };
 
     class Controller {
@@ -58,9 +58,10 @@ namespace MVCMenu {
         std::unique_ptr<std::vector<Model*>> models;
         Model* currentModel;
         View* view;
+        std::unique_ptr<std::string> inputError;
         bool deleteMembers;
     public:
-        Controller(Model& model, View& view, bool deleteMembers = true);
+        Controller(Model& model, View& view, std::string& inputError, bool deleteMembers = true);
         ~Controller();
         void displayView();
     };

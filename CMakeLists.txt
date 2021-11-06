@@ -19,7 +19,6 @@ target_sources(${PROJECT_NAME}
         private/Controller.cpp
         private/Model.cpp
         private/View.cpp
-        private/ErrorUtility.cpp
 )
 
 target_include_directories(${PROJECT_NAME}
@@ -37,7 +36,6 @@ endif()
 
 set(PUBLIC_HEADERS
         public/MVCMenu.h
-        public/ErrorUtility.h
 )
 
 set_target_properties(${PROJECT_NAME}
@@ -55,11 +53,6 @@ install(TARGETS ${PROJECT_NAME}
         PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/${PROJECT_NAME}
         INCLUDES DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}
 )
-
-#add_custom_command(TARGET ${PROJECT_NAME}
-#    POST_BUILD
-#        COMMAND /bin/sh /Users/jared/Projects/mvc_menu/UpdateDistribution.sh
-#)
 
 add_custom_command(
         TARGET ${PROJECT_NAME}

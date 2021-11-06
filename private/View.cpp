@@ -6,7 +6,6 @@
 #include "string"
 #include "vector"
 #include "../public/MVCMenu.h"
-#include "../public/ErrorUtility.h"
 
 static std::string newLine = "\n";
 
@@ -36,7 +35,7 @@ std::string textForModel(MVCMenu::Model& model) {
     return text;
 }
 
-int indexForInput(std::string& input, std::string& modelText, int answersSize) {
+int indexForInput(std::string& input, std::string& modelText, int answersSize, std::string& inputError) {
     int selectedAnswerNumber;
     int selectedAnswerIndex = -1;
     while (!(selectedAnswerIndex > -1 && selectedAnswerIndex < answersSize)) {
@@ -50,7 +49,7 @@ int indexForInput(std::string& input, std::string& modelText, int answersSize) {
         selectedAnswerIndex = selectedAnswerNumber - 1;
 
         if (selectedAnswerIndex < 0 || selectedAnswerIndex >= answersSize) {
-            std::cout << MVCMenu::ErrorUtility::messageForType(MVCMenu::ErrorType::answerInvalid) << std::endl;
+            std::cout << inputError << std::endl;
             std::cout << modelText << std::endl;
             std::cin >> input;
             std::cout << std::endl;
@@ -64,7 +63,7 @@ MVCMenu::Model* handleSelectedAnswer(const std::shared_ptr<MVCMenu::Answer>& ans
     return answer->nextModel();
 }
 
-MVCMenu::Model* MVCMenu::TextView::presentModel(Model &model) {
+MVCMenu::Model* MVCMenu::TextView::presentModel(Model &model, std::string& inputError) {
     std::string modelText = textForModel(model);
     std::cout << modelText << std::endl;
 
@@ -73,7 +72,7 @@ MVCMenu::Model* MVCMenu::TextView::presentModel(Model &model) {
 
     auto answers = model.answers();
     auto answersSize = static_cast<int>(answers.size());
-    auto selectedAnswerIndex = indexForInput(selectedAnswerText, modelText, answersSize);
+    auto selectedAnswerIndex = indexForInput(selectedAnswerText, modelText, answersSize, inputError);
     auto selectedAnswer = answers[selectedAnswerIndex];
     auto nextModel = handleSelectedAnswer(selectedAnswer);
     return nextModel;

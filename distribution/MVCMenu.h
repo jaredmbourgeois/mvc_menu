@@ -22,14 +22,14 @@ namespace MVCMenu {
 
     class Question {
     protected:
-        std::string _text;
+        std::unique_ptr<std::string> _text;
     public:
         std::string& text();
     };
 
     class Answer {
     protected:
-        std::string _text;
+        std::unique_ptr<std::string> _text;
         Model* _nextModel;
     public:
         std::string& text();
@@ -55,7 +55,7 @@ namespace MVCMenu {
 
     class Controller {
     private:
-        std::vector<Model*> models;
+        std::unique_ptr<std::vector<Model*>> models;
         Model* currentModel;
         View* view;
         bool deleteMembers;

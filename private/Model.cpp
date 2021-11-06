@@ -18,8 +18,8 @@ MVCMenu::Model* MVCMenu::Model::previousModel() {
     return _previousModel;
 }
 
-std::string& MVCMenu::Question::text() { return _text; }
+std::string& MVCMenu::Question::text() { return *_text; }
 
-std::string& MVCMenu::Answer::text() { return _text; }
+std::string& MVCMenu::Answer::text() { return *_text; }
 
 MVCMenu::Model* MVCMenu::Answer::nextModel() { return _nextModel; };

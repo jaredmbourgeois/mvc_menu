@@ -60,7 +60,13 @@ int indexForInput(std::string& input, std::string& modelText, int answersSize, s
 
 MVCMenu::Model* handleSelectedAnswer(const std::shared_ptr<MVCMenu::Answer>& answer) {
     answer->action();
-    return answer->nextModel();
+    MVCMenu::Model* nextModel;
+    try {
+        nextModel = answer->nextModel();
+    } catch (char *error) {
+        nextModel = nullptr;
+    }
+    return nextModel;
 }
 
 MVCMenu::Model* MVCMenu::TextView::presentModel(Model &model, std::string& inputError) {

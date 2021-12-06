@@ -59,9 +59,8 @@ namespace MVCMenu {
         Model* currentModel;
         View* view;
         std::unique_ptr<std::string> inputError;
-        bool deleteMembers;
     public:
-        Controller(Model& model, View& view, std::string& inputError, bool deleteMembers = true);
+        Controller(Model&& model, View&& view, std::string&& inputError);
         ~Controller();
         void displayView();
     };

@@ -69,7 +69,7 @@ MVCMenu::Model* handleSelectedAnswer(const std::shared_ptr<MVCMenu::Answer>& ans
     return nextModel;
 }
 
-MVCMenu::Model* MVCMenu::TextView::presentModel(Model &model, std::string& inputError) {
+MVCMenu::Model* MVCMenu::TextView::presentModel(Model& model, std::string& inputError) {
     std::string modelText = textForModel(model);
     std::cout << modelText << std::endl;
 

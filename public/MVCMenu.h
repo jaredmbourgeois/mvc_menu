@@ -60,7 +60,7 @@ namespace MVCMenu {
         View* view;
         std::unique_ptr<std::string> inputError;
     public:
-        Controller(Model&& model, View&& view, std::string&& inputError);
+        Controller(Model& model, View& view, std::string& inputError);
         ~Controller();
         void displayView();
     };

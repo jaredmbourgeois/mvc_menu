@@ -4,7 +4,7 @@
 
 #include "../public/MVCMenu.h"
 
-MVCMenu::Controller::Controller(Model&& model, View&& view, std::string&& inputError) {
+MVCMenu::Controller::Controller(Model& model, View& view, std::string& inputError) {
     this->models = std::make_unique<std::vector<Model*>>(std::vector(1, &model));
     this->currentModel = &model;
     this->view = &view;

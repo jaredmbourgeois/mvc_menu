@@ -1,7 +1,9 @@
 cmake_minimum_required(VERSION 3.20)
 
 set(PROJECT_NAME mvc_menu)
-#set(STATIC_TARGET_NAME mvc_menu_static)
+set(OBJECT_TARGET_NAME mvc_menu_objects)
+set(SHARED_TARGET_NAME mvc_menu_shared)
+set(STATIC_TARGET_NAME mvc_menu_static)
 set(PROJECT_DESCRIPTION "MVC Menu. Build a Menu by subclassing MVC::Model.")
 set(PROJECT_VERSION  1.0.0)
 set(CMAKE_CXX_STANDARD 17)
@@ -13,16 +15,7 @@ project(${PROJECT_NAME}
         LANGUAGES CXX
 )
 
-# SHARED
-add_library(${PROJECT_NAME} SHARED ${CMAKE_SOURCE_DIR}/public)
-target_sources(${PROJECT_NAME}
-    PUBLIC
-        public/MVCMenu.h
-    PRIVATE
-        private/Controller.cpp
-        private/Model.cpp
-        private/View.cpp
-)
+add_library(${PROJECT_NAME} ${CMAKE_SOURCE_DIR}/public)
 set_target_properties(${PROJECT_NAME}
     PROPERTIES
         PUBLIC_HEADER public/MVCMenu.h
@@ -31,49 +24,46 @@ set_target_properties(${PROJECT_NAME}
         CXX_VISIBILITY_PRESET default
 )
 
-## STATIC
-#add_library(${STATIC_TARGET_NAME} STATIC ${CMAKE_SOURCE_DIR}/public)
-#target_sources(${STATIC_TARGET_NAME}
-#    PUBLIC
-#        public/MVCMenu.h
-#    PRIVATE
-#        private/Controller.cpp
-#        private/Model.cpp
-#        private/View.cpp
-#)
-#set_target_properties(${STATIC_TARGET_NAME}
-#    PROPERTIES
-#        PUBLIC_HEADER public/MVCMenu.h
-#        LINKER_LANGUAGE CXX
-#        C_VISIBILITY_PRESET default
-#        CXX_VISIBILITY_PRESET default
-#)
+add_library(${OBJECT_TARGET_NAME} OBJECT ${CMAKE_SOURCE_DIR}/public)
+target_sources(${OBJECT_TARGET_NAME}
+    PUBLIC
+        public/MVCMenu.h
+    PRIVATE
+        private/Controller.cpp
+        private/Model.cpp
+        private/View.cpp
+)
+target_link_libraries(${PROJECT_NAME} ${OBJECT_TARGET_NAME})
 
-#target_include_directories(${PROJECT_NAME}
-#    PRIVATE
-#        ${CMAKE_SOURCE_DIR}/private
-#    PUBLIC
-#        $<BUILD_INTERFACE:${CMAKE_SOURCE_DIR}/public>
-#        $<INSTALL_INTERFACE:${CMAKE_SOURCE_DIR}/public>
-#)
-#
-#if(DEFINED CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT)
-#    set(CMAKE_INSTALL_PREFIX "${CMAKE_SOURCE_DIR}/build"
-#            CACHE PATH "mvc_menu install location" FORCE)
-#endif()
+add_library(${SHARED_TARGET_NAME} SHARED $<TARGET_OBJECTS:${OBJECT_TARGET_NAME}>)
+target_link_libraries(${PROJECT_NAME} ${SHARED_TARGET_NAME})
+
+add_library(${STATIC_TARGET_NAME} STATIC $<TARGET_OBJECTS:${OBJECT_TARGET_NAME}>)
+target_link_libraries(${PROJECT_NAME} ${STATIC_TARGET_NAME})
 
 include(GNUInstallDirs)
 
-install(TARGETS ${PROJECT_NAME} #${STATIC_TARGET_NAME}
-        LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
-        PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/${PROJECT_NAME}
-        INCLUDES DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}
+add_custom_command(
+        TARGET ${PROJECT_NAME}
+        POST_BUILD COMMAND ${CMAKE_COMMAND} -E make_directory ${CMAKE_SOURCE_DIR}/distribution
+        POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_SOURCE_DIR}/public/*.h ${CMAKE_SOURCE_DIR}/distribution/
 )
 
 add_custom_command(
-    TARGET ${PROJECT_NAME}
-        COMMAND ${CMAKE_COMMAND} -E make_directory ${CMAKE_SOURCE_DIR}/distribution
-        COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_SOURCE_DIR}/public/*.h ${CMAKE_SOURCE_DIR}/distribution/
-        COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_SOURCE_DIR}/build/*.dylib ${CMAKE_SOURCE_DIR}/distribution/
-        COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_SOURCE_DIR}/build/*.a ${CMAKE_SOURCE_DIR}/distribution/
+    TARGET ${STATIC_TARGET_NAME}
+        POST_BUILD COMMAND ${CMAKE_COMMAND} -E make_directory ${CMAKE_SOURCE_DIR}/distribution
+        POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_SOURCE_DIR}/build/*.a ${CMAKE_SOURCE_DIR}/distribution/
+)
+
+add_custom_command(
+    TARGET ${SHARED_TARGET_NAME}
+        POST_BUILD COMMAND ${CMAKE_COMMAND} -E make_directory ${CMAKE_SOURCE_DIR}/distribution
+        POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_SOURCE_DIR}/build/*.dylib ${CMAKE_SOURCE_DIR}/distribution/
+)
+
+install(
+    TARGETS ${PROJECT_NAME}
+        LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+        PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/${PROJECT_NAME}
+        INCLUDES DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}
 )
